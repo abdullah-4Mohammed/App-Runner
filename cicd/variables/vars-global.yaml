@@ -1,0 +1,15 @@
+variables:
+  region: 'eu-west-2'
+  awsConnection: "AzToAWS"
+  backendBucketName: "backend-tfstate"
+  backendBucket: "$(serviceName)-$(backendBucketName)-$(environment)-$(regionShortName)"
+  regionShortName: euw2
+  serviceName: app-runner
+  environment: nonprod
+  ecrName: "$(serviceName)-$(environment)-$(regionShortName)"
+  imageRepository: "$(serviceName)-nonprod-euw2"
+  dockerFile: "$(System.DefaultWorkingDirectory)/src/Dockerfile"
+  dockerRegistryServiceConnection: "ecr-docker-sercon"
+  awsAccountId: "626635436469"
+  clusterName: "$(serviceName)-$(environment)-$(regionShortName)"
+  imageUrl: "$(awsAccountId).dkr.ecr.$(region).amazonaws.com/$(imageRepository):latest"
