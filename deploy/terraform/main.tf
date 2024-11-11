@@ -46,7 +46,7 @@ resource "aws_apprunner_service" "flask_app_service" {
       image_repository_type = "ECR"
     }
   }
-    
+
 
   health_check_configuration {
     protocol = "TCP"
