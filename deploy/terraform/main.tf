@@ -20,14 +20,6 @@ resource "aws_iam_role_policy_attachment" "ecr_policy" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
 }
 
-# Define the auto scaling configuration
-resource "aws_apprunner_auto_scaling_configuration" "flask_app_as_config" {
-  auto_scaling_configuration_name = "flask-app-auto-scaling-config"
-  max_concurrency                 = 100
-  max_size                        = 25
-  min_size                        = 1
-}
-
 # App Runner Service
 resource "aws_apprunner_service" "flask_app_service" {
   service_name = "flask-app-runner"
@@ -58,9 +50,6 @@ resource "aws_apprunner_service" "flask_app_service" {
     cpu    = "1024"  # 1 vCPU
     memory = "2048"  # 2 GB RAM
   }
-
-    # Dynamically retrieved auto-scaling configuration ARN
-  auto_scaling_configuration_arn = aws_apprunner_auto_scaling_configuration.flask_app_as_config.arn
 
 }
 
