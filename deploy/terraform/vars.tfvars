@@ -9,3 +9,5 @@ region = "__region__"
 backendBucket = "__backendBucket__"
 
 cluster_name = "__clusterName__"
+
+imageUrl = "__imageUrl__"

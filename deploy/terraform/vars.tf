@@ -37,12 +37,17 @@ variable "regionShortName" {
   type = string
 }
 
+variable "imageUrl" {
+  type = string
+}
+
 locals {
   resourceName = "${var.serviceName}-${var.environment}-${var.regionShortName}"
   key = "tf/${var.environment}.tfstate"
   //region = "${var.region}"
   backendBucket = "${var.backendBucket}"
 }
+
 
 #   vpc_cidr = "10.10.0.0/16"
 #   azs      = ["${var.region}a", "${var.region}b"]
