@@ -1,0 +1,18 @@
+Flask App Deployment on AWS App Runner
+This project deploys a Flask web application to AWS App Runner using Terraform. The application container image is stored in Amazon Elastic Container Registry (ECR) and pulled by App Runner, which provides fully managed container deployment and scaling.
+
+Project Overview
+Infrastructure as Code (IaC): Terraform manages the deployment and configuration.
+Container Registry: Amazon ECR hosts the Docker image.
+Compute Service: AWS App Runner manages the application deployment and auto-scaling.
+IAM: Role-based access for App Runner to securely pull the container image from ECR.
+Requirements
+Terraform v1.9.2+
+AWS Provider v5.42.0+
+AWS credentials configured on your local environment with sufficient permissions.
+AWS Resources
+The following AWS resources are created:
+
+IAM Role for App Runner to access ECR.
+Amazon ECR Repository to store the container image.
+App Runner Service to deploy the Flask application and handle auto-scaling.
