@@ -31,7 +31,12 @@ resource "aws_apprunner_service" "flask_app_service" {
   service_name = "flask-app-runner"
 
   source_configuration {
+
     auto_deployments_enabled = false
+
+    authentication_configuration {
+      connection_arn = aws_ssm_parameter.connection_arn.value
+    }
 
     image_repository {
       image_configuration {
