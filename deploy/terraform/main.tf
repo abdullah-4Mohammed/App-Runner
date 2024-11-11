@@ -20,9 +20,12 @@ resource "aws_iam_role_policy_attachment" "ecr_policy" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
 }
 
-# Data source to fetch the ARN of the default auto-scaling configuration
-data "aws_apprunner_auto_scaling_configuration" "default" {
-  name = "DefaultConfiguration"
+# Define the auto scaling configuration
+resource "aws_apprunner_auto_scaling_configuration" "flask_app_as_config" {
+  auto_scaling_configuration_name = "flask-app-auto-scaling-config"
+  max_concurrency                 = 100
+  max_size                        = 25
+  min_size                        = 1
 }
 
 # App Runner Service
@@ -57,7 +60,7 @@ resource "aws_apprunner_service" "flask_app_service" {
   }
 
     # Dynamically retrieved auto-scaling configuration ARN
-  auto_scaling_configuration_arn = data.aws_apprunner_auto_scaling_configuration.default.arn
+  auto_scaling_configuration_arn = aws_apprunner_auto_scaling_configuration.flask_app_as_config.arn
 
 }
 
