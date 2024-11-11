@@ -35,7 +35,7 @@ resource "aws_apprunner_service" "flask_app_service" {
     auto_deployments_enabled = false
 
     authentication_configuration {
-      connection_arn = aws_ssm_parameter.connection_arn.value
+      access_role_arn = aws_iam_role.app_runner_role.arn
     }
 
     image_repository {
