@@ -3,15 +3,17 @@
 resource "aws_iam_role" "app_runner_role" {
   name = "app-runner-ecr-access"
   assume_role_policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [{
-      Effect = "Allow"
-      Principal = {
-        Service = "apprunner.amazonaws.com"
-      }
-      Action = "sts:AssumeRole"
-    }]
-  })
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Principal": {
+                "Service": "build.apprunner.amazonaws.com"
+            },
+            "Action": "sts:AssumeRole"
+        }
+    ]
+})
 }
 
 
@@ -24,6 +26,7 @@ resource "aws_iam_role_policy_attachment" "ecr_policy" {
 resource "aws_iam_role_policy_attachment" "apprunner_service_policy" {
   role       = aws_iam_role.app_runner_role.name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSAppRunnerServicePolicyForECRAccess"
+  
 }
 
 resource "aws_iam_role_policy_attachment" "vpc_access_policy" {
@@ -37,18 +40,17 @@ resource "aws_apprunner_service" "flask_app_service" {
   service_name = "flask-app-runner"
 
   source_configuration {
-    authentication_configuration {
-      access_role_arn = aws_iam_role.app_runner_role.arn
-    }
+    auto_deployments_enabled = false
 
     image_repository {
+      image_configuration {
+      port = "80"  # Port where Flask app is listening
+      }
       image_identifier      = var.imageUrl
       image_repository_type = "ECR"
-      image_configuration {
-        port = "80"  # Port where Flask app is listening
-      }
     }
   }
+    
 
   health_check_configuration {
     protocol = "TCP"
