@@ -14,11 +14,23 @@ resource "aws_iam_role" "app_runner_role" {
   })
 }
 
-# Attach policies to the IAM role to allow access to ECR
+
+# Attach policies to the IAM role to allow full App Runner and ECR access
 resource "aws_iam_role_policy_attachment" "ecr_policy" {
   role       = aws_iam_role.app_runner_role.name
   policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
 }
+
+resource "aws_iam_role_policy_attachment" "apprunner_service_policy" {
+  role       = aws_iam_role.app_runner_role.name
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSAppRunnerServicePolicyForECRAccess"
+}
+
+resource "aws_iam_role_policy_attachment" "vpc_access_policy" {
+  role       = aws_iam_role.app_runner_role.name
+  policy_arn = "arn:aws:iam::aws:policy/AWSAppRunnerServicePolicyForVpcAccess"
+}
+
 
 # App Runner Service
 resource "aws_apprunner_service" "flask_app_service" {
